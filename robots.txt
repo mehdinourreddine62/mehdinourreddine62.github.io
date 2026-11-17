@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mehdinourreddine62.github.io/clic-par-clic/sitemap.xml
