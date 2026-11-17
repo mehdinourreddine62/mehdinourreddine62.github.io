@@ -1,0 +1,26 @@
+name: Mettre à jour l'accueil depuis clic-par-clic
+# Recopie chaque jour la page d'accueil générée par le dépôt public clic-par-clic (dossier racine/).
+on:
+  schedule:
+    - cron: "17 5 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  copier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: mehdinourreddine62/clic-par-clic
+          path: source
+          sparse-checkout: racine
+      - name: Copier et publier si la page a changé
+        run: |
+          cp -r source/racine/. .
+          rm -rf source
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || { git commit -m "Mettre à jour l'accueil depuis clic-par-clic"; git push; }
